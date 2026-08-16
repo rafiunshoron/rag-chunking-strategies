@@ -1,0 +1,5 @@
+Retrieval-Augmented Generation, or RAG, combines a language model with external knowledge. Before retrieval can happen, documents are usually divided into smaller pieces called chunks.
+
+A good chunk should contain enough context to be meaningful, but it should not be so large that retrieval becomes imprecise. Chunk boundaries matter because a bad split can separate a question from the information needed to answer it. For example, imagine a paragraph explaining how vector databases store embeddings and how similarity search finds relevant passages. If the paragraph is cut at an arbitrary position, the retrieved piece may contain only half of the explanation, making it less useful to the language model.
+
+LangChain provides several text splitters. In this session we will compare character-based, recursive, and token-based splitting using exactly the same source text.

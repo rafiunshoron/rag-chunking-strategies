@@ -1,0 +1,26 @@
+{
+  "store": {
+    "name": "AI Hardware Shop",
+    "location": "Dhaka",
+    "products": [
+      {
+        "id": 1,
+        "name": "GPU Workstation",
+        "category": "Computer",
+        "description": "A workstation designed for machine learning experiments and local model inference."
+      },
+      {
+        "id": 2,
+        "name": "Vector Server",
+        "category": "Server",
+        "description": "A server used for storing embeddings and running vector database workloads."
+      },
+      {
+        "id": 3,
+        "name": "RAG Development PC",
+        "category": "Computer",
+        "description": "A development computer configured for building retrieval augmented generation applications."
+      }
+    ]
+  }
+}

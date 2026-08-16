@@ -1,0 +1,31 @@
+{
+  "user": {
+    "id": 101,
+    "name": "Alex Morgan",
+    "email": "alex@example.com",
+    "address": {
+      "street": "12 Lake Road",
+      "city": "Dhaka",
+      "country": "Bangladesh",
+      "geo": {
+        "latitude": 23.8103,
+        "longitude": 90.4125
+      }
+    },
+    "company": {
+      "name": "Vector Labs",
+      "department": "AI Engineering",
+      "projects": {
+        "rag_system": {
+          "status": "active",
+          "database": "Chroma",
+          "embedding_model": "all-MiniLM-L6-v2"
+        },
+        "chatbot": {
+          "status": "development",
+          "framework": "LangChain"
+        }
+      }
+    }
+  }
+}
