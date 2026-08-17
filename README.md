@@ -203,6 +203,77 @@ Primary documentation used for the LangChain experiments:
 * Recursive JSON Splitting
 * Code Splitting
 
+
+
+## Final RAG Chunking Benchmark
+
+A final experiment was performed using the **Nike 2023 10-K PDF** to compare two chunking configurations under the same retrieval pipeline.
+
+### Pipeline
+
+```text
+PDF
+ ↓
+Chunking
+ ↓
+SentenceTransformer Embeddings
+ ↓
+Chroma Vector Database
+ ↓
+Similarity Search (Top-3)
+ ↓
+Retrieval Evaluation
+```
+
+### Compared Strategies
+
+| Strategy              | Configuration                                      |
+| --------------------- | -------------------------------------------------- |
+| Recursive Character   | `chunk_size=1000`, `chunk_overlap=200`             |
+| Recursive Token-Aware | `chunk_size=250 tokens`, `chunk_overlap=50 tokens` |
+
+### Chunk Statistics
+
+| Metric             | Recursive Character | Recursive Token-Aware |
+| ------------------ | ------------------: | --------------------: |
+| Number of chunks   |                 516 |                   438 |
+| Average characters |               847.2 |                 974.8 |
+| Average tokens     |               180.7 |                 208.1 |
+| Maximum characters |                 999 |                  1494 |
+| Maximum tokens     |                 417 |                   249 |
+
+### Retrieval Results
+
+| Strategy              |    Hit@3 |      MRR |
+| --------------------- | -------: | -------: |
+| Recursive Character   | **1.00** | **1.00** |
+| Recursive Token-Aware | **1.00** | **0.88** |
+
+Both strategies retrieved relevant evidence for all test questions within the top three results.
+
+The token-aware strategy provided a much more predictable token ceiling, while the character-based strategy achieved a higher MRR under the current page-level ground-truth labels.
+
+One important observation was that relevant information sometimes appeared on multiple pages. This shows why realistic RAG evaluation should support **multiple relevant passages or documents per query**, rather than assuming only one page is correct.
+
+### Key Learning
+
+Chunking should not be evaluated only by visually inspecting chunk boundaries.
+
+A stronger workflow is:
+
+```text
+Chunking Strategy
+        ↓
+Retrieval
+        ↓
+Hit@K / Recall@K / MRR
+        ↓
+RAG Answer Evaluation
+```
+
+This makes it possible to measure whether a chunking decision actually improves retrieval quality.
+
+
 Official documentation: `https://docs.langchain.com/oss/python/integrations/splitters`
 
 ---
