@@ -384,3 +384,106 @@ For code-oriented RAG systems, this trade-off can be useful when preserving sour
 ## License
 
 This project can be used as a learning and experimentation implementation for structure-aware code chunking.
+
+## Architecture / Chunking Design
+
+The chunker follows a **syntax-tree-aware hierarchical splitting strategy**.
+
+```text
+                Python Source File
+                        │
+                        ▼
+              Tree-sitter Parser
+                        │
+                        ▼
+                  Syntax Tree
+                        │
+                        ▼
+              Syntax Validation
+                        │
+                        ▼
+           Detect Structural Nodes
+          ┌──────────┬──────────┐
+          │          │          │
+        Class     Function   Module Code
+          │          │          │
+          ▼          ▼          ▼
+       Size Check  Size Check  Group Context
+          │          │
+     ┌────┴────┐ ┌───┴────┐
+     │         │ │        │
+   Small     Large Small  Large
+     │         │ │        │
+     ▼         ▼ ▼        ▼
+ Keep Whole  Methods    Statements
+                │           │
+                ▼           ▼
+             Size Check   Size Check
+                            │
+                            ▼
+                     Oversized Leaf
+                            │
+                            ▼
+                     Line Fallback
+                            │
+                            ▼
+                  Character Fallback
+                            │
+                            ▼
+                    Final Code Chunks
+                            │
+                            ▼
+                     Attach Metadata
+                            │
+          ┌─────────────────┼─────────────────┐
+          │                 │                 │
+      Chunk ID          File Path        Parent Scope
+      Line Range        Node Type        Chunk Index
+      Language          Char Count       Syntax Valid
+                            │
+                            ▼
+                       Ready for RAG
+```
+
+### Core Processing Flow
+
+```text
+chunk_file()
+   │
+   ├── Validate file
+   ├── Parse with Tree-sitter
+   ├── Validate syntax
+   │
+   └── extract_code_chunks()
+            │
+            └── split_node()
+                   │
+                   ├── split_large_class()
+                   │       └── Split into methods
+                   │
+                   └── split_large_function()
+                           └── Split into statements
+                                   │
+                                   └── split_oversized_node()
+```
+
+### Design Principle
+
+The main goal is to preserve the **largest meaningful code structure possible**.
+
+```text
+Parse source code
+      ↓
+Identify real syntax structures
+      ↓
+Keep the structure intact if it fits
+      ↓
+If too large, recursively descend
+      ↓
+Class → Method → Statement
+      ↓
+Use simple fallback only when necessary
+```
+
+Tree-sitter is responsible for understanding the **structure of the source code**, while the custom recursive chunking logic determines **how deeply that structure should be split** based on the configured chunk-size limit.
+
