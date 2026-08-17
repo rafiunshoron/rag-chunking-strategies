@@ -2,70 +2,17 @@
 
 A structure-aware Python code chunking implementation for Retrieval-Augmented Generation (RAG).
 
-Instead of treating source code as plain text, this project uses **Tree-sitter** to parse Python source code into a syntax tree and then applies a custom hierarchical chunking strategy that preserves logical structures such as classes, functions, methods, and statements.
+This project uses **Tree-sitter** to parse Python source code into a syntax tree and applies custom hierarchical chunking logic to preserve meaningful structures such as classes, functions, methods, and statements.
 
-> Tree-sitter technically produces a concrete syntax tree (CST). In this project, it is used in an AST-like manner for structural code chunking.
-
----
-
-## Why Structure-Aware Code Chunking?
-
-Traditional text splitters usually work with:
-
-* characters
-* newlines
-* separators
-* token limits
-
-This works well for normal text, but source code contains additional structure.
-
-For example:
-
-```python
-class UserService:
-
-    def create_user(self):
-        ...
-
-    def delete_user(self):
-        ...
-```
-
-A plain text splitter may break this code based mainly on size or separators.
-
-This project first parses the code structure and then chunks according to actual syntax nodes.
-
-```text
-Source Code
-     ↓
-Tree-sitter Parser
-     ↓
-Syntax Tree
-     ↓
-Class / Function / Method
-     ↓
-Size Check
-     ↓
-Recursive Structural Splitting
-     ↓
-Final Code Chunks
-```
+> Tree-sitter technically produces a concrete syntax tree (CST), but here it is used in an AST-like way for structural code chunking.
 
 ---
 
-## Why Tree-sitter Instead of Only LangChain's Code Splitter?
+## Why Tree-sitter?
 
-LangChain provides language-aware recursive splitting through:
+LangChain provides language-aware recursive splitting, but it is still mainly **separator-based**.
 
-```python
-RecursiveCharacterTextSplitter.from_language(...)
-```
-
-It improves code splitting by using language-specific separators.
-
-However, it is still primarily **separator-based**.
-
-Tree-sitter actually parses the programming language grammar and identifies real syntax structures such as:
+Tree-sitter actually parses programming-language grammar and identifies real structures such as:
 
 ```text
 class_definition
@@ -73,321 +20,45 @@ function_definition
 decorated_definition
 ```
 
-This allows the chunking strategy to work directly with the source-code hierarchy rather than relying only on textual patterns.
+This allows chunking to follow actual code structure instead of relying only on patterns such as `def`, `class`, or newlines.
 
 ---
 
 ## Chunking Strategy
 
-The chunker follows a hierarchical approach.
+The main idea is:
 
 ```text
-Python File
+Parse first
    ↓
-Parse with Tree-sitter
+Understand code structure
    ↓
-Top-level structural unit
+Keep meaningful units intact
    ↓
-Is it within max_chunk_size?
-   │
-   ├── Yes → Keep intact
-   │
-   └── No
-        ↓
-   Inspect structure
-        ↓
-   Class → Methods
-        ↓
-   Function → Statements
-        ↓
-   Oversized statement → Lines
-        ↓
-   Oversized line → Character fallback
+Split only when they become too large
 ```
 
-The important principle is:
-
-> Preserve the largest meaningful code structure possible before splitting into smaller units.
-
----
-
-## Features
-
-* Tree-sitter-based Python parsing
-* structure-aware chunk boundaries
-* recursive class-to-method splitting
-* oversized function splitting by statements
-* decorated function support
-* `async def` support
-* nested definition handling
-* module-level code and import preservation
-* parent-scope metadata
-* source line tracking
-* deterministic chunk IDs
-* configurable maximum chunk size
-* syntax-error validation
-* fallback splitting for oversized leaf nodes
-* automated test coverage with `pytest`
-
----
-
-## Project Structure
+The chunker follows this hierarchy:
 
 ```text
-ast-code-chunking/
-│
-├── chunker.py
-├── sample_code.py
-├── demo_chunker.py
-├── inspect_tree.py
-├── pytest.ini
-│
-├── tests/
-│   └── test_chunker.py
-│
-└── README.md
+Class
+  ↓
+Method
+  ↓
+Statement
+  ↓
+Line fallback
+  ↓
+Character fallback
 ```
 
-### `chunker.py`
+If a class or function is already within the configured size limit, it is kept as one chunk.
 
-Contains the main Tree-sitter parsing and chunking implementation.
-
-### `sample_code.py`
-
-Example Python source file used to inspect chunking behavior.
-
-### `inspect_tree.py`
-
-Displays the Tree-sitter syntax tree and top-level syntax nodes.
-
-### `demo_chunker.py`
-
-Runs the chunker on the sample source file and prints generated chunks and metadata.
-
-### `tests/test_chunker.py`
-
-Automated tests for the core chunking behavior.
+If it is too large, the chunker recursively moves deeper into the syntax tree.
 
 ---
 
-## Installation
-
-### 1. Create a virtual environment
-
-```bash
-python -m venv .venv
-```
-
-### 2. Activate it
-
-Windows PowerShell:
-
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-### 3. Install dependencies
-
-```bash
-pip install tree-sitter tree-sitter-python pytest
-```
-
----
-
-## Basic Usage
-
-```python
-from chunker import chunk_file
-
-chunks = chunk_file(
-    "sample_code.py",
-    max_chunk_size=500,
-)
-
-for chunk in chunks:
-    print(chunk["name"])
-    print(chunk["type"])
-    print(chunk["parent_scope"])
-    print(chunk["content"])
-```
-
----
-
-## Example Chunk Metadata
-
-Each generated chunk contains metadata similar to:
-
-```python
-{
-    "chunk_id": "21e84fe91c036d46bb8a846a",
-    "chunk_index": 3,
-    "file_path": "sample_code.py",
-    "file_name": "sample_code.py",
-    "language": "python",
-    "type": "function_definition",
-    "name": "create_user",
-    "parent_scope": "UserService",
-    "start_line": 20,
-    "end_line": 35,
-    "char_count": 420,
-    "syntax_valid": True,
-    "content": "def create_user(...): ..."
-}
-```
-
-This metadata can later be useful during indexing and retrieval in a code RAG system.
-
----
-
-## Recursive Structural Splitting
-
-The main difference between this implementation and normal recursive text splitting is **what is being recursively traversed**.
-
-A regular recursive text splitter might do:
-
-```text
-paragraph
-   ↓
-newline
-   ↓
-space
-   ↓
-character
-```
-
-This implementation primarily follows the parsed code hierarchy:
-
-```text
-class
-   ↓
-method
-   ↓
-statement
-```
-
-For example:
-
-```text
-UserService
-│
-├── create_user()
-├── get_user()
-└── delete_user()
-```
-
-If the entire `UserService` class fits within the configured chunk size, it can remain one chunk.
-
-If it is too large, the chunker descends into its methods and processes those independently.
-
----
-
-## Syntax Validation
-
-Before chunking, the source file is parsed with Tree-sitter.
-
-With:
-
-```python
-strict=True
-```
-
-files containing parser errors raise a `SyntaxError`.
-
-Example:
-
-```python
-chunks = chunk_file(
-    "sample_code.py",
-    max_chunk_size=500,
-    strict=True,
-)
-```
-
-Malformed source code can also be processed with:
-
-```python
-strict=False
-```
-
-In that case:
-
-```python
-chunk["syntax_valid"]
-```
-
-indicates whether Tree-sitter detected syntax errors.
-
----
-
-## Testing
-
-Run the full test suite from the project root:
-
-```bash
-python -m pytest -v
-```
-
-The current test suite verifies:
-
-```text
-✓ Small functions remain intact
-✓ Large classes split into methods
-✓ Parent scope is preserved
-✓ Decorators are preserved
-✓ Async functions are detected
-✓ Maximum chunk size is respected
-✓ Chunk IDs are deterministic
-✓ Invalid Python raises an error
-```
-
-Current result:
-
-```text
-8 passed
-```
-
----
-
-## Design Trade-off
-
-This approach provides more structural control than a simple text-based splitter, but that control comes with additional implementation complexity.
-
-```text
-Tree-sitter + custom structural recursion
-
-Advantages
-├── real syntax boundaries
-├── hierarchical splitting
-├── richer metadata
-└── fine-grained control
-
-Trade-offs
-├── more implementation code
-├── language grammar dependency
-├── more edge cases
-└── more testing and maintenance
-```
-
-For code-oriented RAG systems, this trade-off can be useful when preserving source-code structure is more important than using a simple generic text-splitting pipeline.
-
----
-
-## Technologies
-
-* Python
-* Tree-sitter
-* tree-sitter-python
-* pytest
-
----
-
-## License
-
-This project can be used as a learning and experimentation implementation for structure-aware code chunking.
-
-## Architecture / Chunking Design
-
-The chunker follows a **syntax-tree-aware hierarchical splitting strategy**.
+## Architecture
 
 ```text
                 Python Source File
@@ -445,7 +116,9 @@ The chunker follows a **syntax-tree-aware hierarchical splitting strategy**.
                        Ready for RAG
 ```
 
-### Core Processing Flow
+---
+
+## Core Processing Flow
 
 ```text
 chunk_file()
@@ -459,31 +132,162 @@ chunk_file()
             └── split_node()
                    │
                    ├── split_large_class()
-                   │       └── Split into methods
+                   │       └── Methods
                    │
                    └── split_large_function()
-                           └── Split into statements
+                           └── Statements
                                    │
                                    └── split_oversized_node()
 ```
 
-### Design Principle
+Tree-sitter handles the **code structure**, while the custom recursive logic controls **how deeply the structure should be split**.
 
-The main goal is to preserve the **largest meaningful code structure possible**.
+---
+
+## Features
+
+* Tree-sitter-based Python parsing
+* structure-aware chunk boundaries
+* recursive class-to-method splitting
+* function-to-statement splitting
+* decorator support
+* `async def` support
+* nested definition handling
+* module-level code preservation
+* syntax validation
+* configurable maximum chunk size
+* parent-scope metadata
+* line-number metadata
+* deterministic chunk IDs
+* automated testing with `pytest`
+
+---
+
+## Project Structure
 
 ```text
-Parse source code
-      ↓
-Identify real syntax structures
-      ↓
-Keep the structure intact if it fits
-      ↓
-If too large, recursively descend
-      ↓
-Class → Method → Statement
-      ↓
-Use simple fallback only when necessary
+ast-code-chunking/
+│
+├── chunker.py
+├── sample_code.py
+├── demo_chunker.py
+├── inspect_tree.py
+├── pytest.ini
+│
+├── tests/
+│   └── test_chunker.py
+│
+└── README.md
 ```
 
-Tree-sitter is responsible for understanding the **structure of the source code**, while the custom recursive chunking logic determines **how deeply that structure should be split** based on the configured chunk-size limit.
+---
 
+## Installation
+
+Create a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate it on Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Install dependencies:
+
+```bash
+pip install tree-sitter tree-sitter-python pytest
+```
+
+---
+
+## Usage
+
+```python
+from chunker import chunk_file
+
+chunks = chunk_file(
+    "sample_code.py",
+    max_chunk_size=500,
+)
+
+for chunk in chunks:
+    print(chunk["name"])
+    print(chunk["type"])
+    print(chunk["parent_scope"])
+    print(chunk["content"])
+```
+
+---
+
+## Chunk Metadata
+
+Each chunk includes metadata such as:
+
+```text
+chunk_id
+chunk_index
+file_path
+file_name
+language
+type
+name
+parent_scope
+start_line
+end_line
+char_count
+syntax_valid
+```
+
+This information can later be used during indexing and retrieval in a code RAG pipeline.
+
+---
+
+## Testing
+
+Run:
+
+```bash
+python -m pytest -v
+```
+
+The current test suite verifies:
+
+```text
+✓ Small functions remain intact
+✓ Large classes split into methods
+✓ Parent scope is preserved
+✓ Decorators are preserved
+✓ Async functions are detected
+✓ Maximum chunk size is respected
+✓ Chunk IDs are deterministic
+✓ Invalid Python raises an error
+```
+
+Current result:
+
+```text
+8 passed
+```
+
+---
+
+## Tech Stack
+
+* Python
+* Tree-sitter
+* tree-sitter-python
+* pytest
+
+---
+
+## Design Trade-off
+
+This approach provides more control over code structure than plain separator-based splitting.
+
+The trade-off is additional implementation complexity and maintenance.
+
+For code-oriented RAG systems, the benefit is that chunk boundaries can follow real source-code structures rather than arbitrary text boundaries.
