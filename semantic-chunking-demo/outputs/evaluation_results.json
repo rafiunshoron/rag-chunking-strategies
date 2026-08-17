@@ -1,0 +1,345 @@
+{
+  "configuration": {
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "collection_name": "semantic_chunks",
+    "top_k": 3
+  },
+  "metrics": {
+    "hit_at_3": 0.8,
+    "mrr": 0.5666666666666667,
+    "successful_hits": 8,
+    "number_of_questions": 10
+  },
+  "questions": [
+    {
+      "question_id": 1,
+      "question": "What is the goal of the NIST AI Risk Management Framework?",
+      "relevant_pages": [
+        "2"
+      ],
+      "hit_at_3": 0,
+      "first_relevant_rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_results": [
+        {
+          "rank": 1,
+          "chunk_id": 1,
+          "page_label": "1",
+          "relevant": false,
+          "text_preview": "NIST AI 100-1\nArtificial Intelligence Risk Management\nFramework (AI RMF 1.0)\n"
+        },
+        {
+          "rank": 2,
+          "chunk_id": 2,
+          "page_label": "1",
+          "relevant": false,
+          "text_preview": "NIST AI 100-1\nArtificial Intelligence Risk Management\nFramework (AI RMF 1.0)\nThis publication is available free of charge from:\nhttps://doi.org/10.6028/NIST.AI.100-1\nJanuary 2023\nU.S. Department of Commerce\nGina M. Raimondo, Secretary\nNational Institute of Standards and Technology\nLaurie E. Locascio"
+        },
+        {
+          "rank": 3,
+          "chunk_id": 86,
+          "page_label": "39",
+          "relevant": false,
+          "text_preview": "Privacy and cybersecurity risk management considerations and approaches are applicable\nin the design, development, deployment, evaluation, and use of AI systems. Privacy and\ncybersecurity risks are also considered as part of broader enterprise risk management con-\nsiderations, which may incorporate "
+        }
+      ]
+    },
+    {
+      "question_id": 2,
+      "question": "How does the AI RMF define risk and risk management?",
+      "relevant_pages": [
+        "4"
+      ],
+      "hit_at_3": 1,
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_results": [
+        {
+          "rank": 1,
+          "chunk_id": 15,
+          "page_label": "4",
+          "relevant": true,
+          "text_preview": "NIST AI 100-1 AI RMF 1.0\nPart 1: Foundational Information\n1. Framing Risk\nAI risk management offers a path to minimize potential negative impacts of AI systems,\nsuch as threats to civil liberties and rights, while also providing opportunities to maximize\npositive impacts. Addressing, documenting, an"
+        },
+        {
+          "rank": 2,
+          "chunk_id": 14,
+          "page_label": "3",
+          "relevant": false,
+          "text_preview": "It describes four specific functions to help\norganizations address the risks of AI systems in practice. These functions – GOVERN ,\nMAP, MEASURE , and MANAGE – are broken down further into categories and subcate-\ngories. While GOVERN applies to all stages of organizations’ AI risk management pro-\nces"
+        },
+        {
+          "rank": 3,
+          "chunk_id": 1,
+          "page_label": "1",
+          "relevant": false,
+          "text_preview": "NIST AI 100-1\nArtificial Intelligence Risk Management\nFramework (AI RMF 1.0)\n"
+        }
+      ]
+    },
+    {
+      "question_id": 3,
+      "question": "What challenges exist when measuring AI risks?",
+      "relevant_pages": [
+        "6"
+      ],
+      "hit_at_3": 1,
+      "first_relevant_rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_results": [
+        {
+          "rank": 1,
+          "chunk_id": 18,
+          "page_label": "5",
+          "relevant": false,
+          "text_preview": "Examples of potential harms related to AI systems. Trustworthy AI systems and their\nresponsible use can mitigate negative risks and contribute to benefits for people, organizations, and\necosystems.\n1.2 Challenges for AI Risk Management\nSeveral challenges are described below. They should be taken int"
+        },
+        {
+          "rank": 2,
+          "chunk_id": 19,
+          "page_label": "6",
+          "relevant": true,
+          "text_preview": "NIST AI 100-1 AI RMF 1.0\nAI system impact assessment approaches can help AI actors understand potential impacts\nor harms within specific contexts.\nAvailability of reliable metrics: The current lack of consensus on robust and verifiable\nmeasurement methods for risk and trustworthiness, and applicabil"
+        },
+        {
+          "rank": 3,
+          "chunk_id": 64,
+          "page_label": "28",
+          "relevant": false,
+          "text_preview": "AI systems should be tested before their deployment and regu-\nlarly while in operation. AI risk measurements include documenting aspects of systems’\nfunctionality and trustworthiness.\nMeasuring AI risks includes tracking metrics for trustworthy characteristics, social impact,\nand human-AI configurat"
+        }
+      ]
+    },
+    {
+      "question_id": 4,
+      "question": "How should organizations prioritize AI risks?",
+      "relevant_pages": [
+        "8"
+      ],
+      "hit_at_3": 0,
+      "first_relevant_rank": null,
+      "reciprocal_rank": 0.0,
+      "retrieved_results": [
+        {
+          "rank": 1,
+          "chunk_id": 5,
+          "page_label": "i",
+          "relevant": false,
+          "text_preview": "Table of Contents\nExecutive Summary 1\nPart 1: Foundational Information 4\n1 Framing Risk 4\n1.1 Understanding and Addressing Risks, Impacts, and Harms 4\n1.2 Challenges for AI Risk Management 5\n1.2.1 Risk Measurement 5\n1.2.2 Risk Tolerance 7\n1.2.3 Risk Prioritization 7\n1.2.4 Organizational Integration "
+        },
+        {
+          "rank": 2,
+          "chunk_id": 70,
+          "page_label": "31",
+          "relevant": false,
+          "text_preview": "After completing the MANAGE function, plans for prioritizing risk and regular monitoring\nand improvement will be in place. Framework users will have enhanced capacity to man-\nage the risks of deployed AI systems and to allocate risk management resources based on\nassessed and prioritized risks. It is"
+        },
+        {
+          "rank": 3,
+          "chunk_id": 10,
+          "page_label": "1",
+          "relevant": false,
+          "text_preview": "While there are myriad standards and best practices to help organizations mitigate the risks\nof traditional software or information-based systems, the risks posed by AI systems are in\nmany ways unique (See Appendix B). AI systems, for example, may be trained on data that\ncan change over time, someti"
+        }
+      ]
+    },
+    {
+      "question_id": 5,
+      "question": "Who is the intended audience of the AI Risk Management Framework?",
+      "relevant_pages": [
+        "9"
+      ],
+      "hit_at_3": 1,
+      "first_relevant_rank": 3,
+      "reciprocal_rank": 0.3333333333333333,
+      "retrieved_results": [
+        {
+          "rank": 1,
+          "chunk_id": 1,
+          "page_label": "1",
+          "relevant": false,
+          "text_preview": "NIST AI 100-1\nArtificial Intelligence Risk Management\nFramework (AI RMF 1.0)\n"
+        },
+        {
+          "rank": 2,
+          "chunk_id": 5,
+          "page_label": "i",
+          "relevant": false,
+          "text_preview": "Table of Contents\nExecutive Summary 1\nPart 1: Foundational Information 4\n1 Framing Risk 4\n1.1 Understanding and Addressing Risks, Impacts, and Harms 4\n1.2 Challenges for AI Risk Management 5\n1.2.1 Risk Measurement 5\n1.2.2 Risk Tolerance 7\n1.2.3 Risk Prioritization 7\n1.2.4 Organizational Integration "
+        },
+        {
+          "rank": 3,
+          "chunk_id": 26,
+          "page_label": "9",
+          "relevant": true,
+          "text_preview": "Audience\nIdentifying and managing AI risks and potential impacts – both positive and negative – re-\nquires a broad set of perspectives and actors across the AI lifecycle. Ideally, AI actors will\nrepresent a diversity of experience, expertise, and backgrounds and comprise demograph-\nically and discip"
+        }
+      ]
+    },
+    {
+      "question_id": 6,
+      "question": "What is the difference between explainability and interpretability in AI systems?",
+      "relevant_pages": [
+        "16"
+      ],
+      "hit_at_3": 1,
+      "first_relevant_rank": 2,
+      "reciprocal_rank": 0.5,
+      "retrieved_results": [
+        {
+          "rank": 1,
+          "chunk_id": 41,
+          "page_label": "17",
+          "relevant": false,
+          "text_preview": "NIST AI 100-1 AI RMF 1.0\nRisks to interpretability often can be addressed by communicating a description of why\nan AI system made a particular prediction or recommendation. (See “Four Principles of\nExplainable Artificial Intelligence” and “Psychological Foundations of Explainability and\nInterpretabi"
+        },
+        {
+          "rank": 2,
+          "chunk_id": 39,
+          "page_label": "16",
+          "relevant": true,
+          "text_preview": "NIST AI 100-1 AI RMF 1.0\nple, how a human operator or user is notified when a potential or actual adverse outcome\ncaused by an AI system is detected. A transparent system is not necessarily an accurate,\nprivacy-enhanced, secure, or fair system. However, it is difficult to determine whether an\nopaque"
+        },
+        {
+          "rank": 3,
+          "chunk_id": 90,
+          "page_label": "41",
+          "relevant": false,
+          "text_preview": "NIST AI 100-1 AI RMF 1.0\n4. Presenting AI system information to humans is complex. "
+        }
+      ]
+    },
+    {
+      "question_id": 7,
+      "question": "What is the purpose of the MAP function in the AI RMF?",
+      "relevant_pages": [
+        "25"
+      ],
+      "hit_at_3": 1,
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_results": [
+        {
+          "rank": 1,
+          "chunk_id": 57,
+          "page_label": "25",
+          "relevant": true,
+          "text_preview": "NIST AI 100-1 AI RMF 1.0\nThis complexity and varying levels of visibility can introduce uncertainty into risk man-\nagement practices. Anticipating, assessing, and otherwise addressing potential sources of\nnegative risk can mitigate this uncertainty and enhance the integrity of the decision process.\n"
+        },
+        {
+          "rank": 2,
+          "chunk_id": 91,
+          "page_label": "41",
+          "relevant": false,
+          "text_preview": "Humans perceive and\nderive meaning from AI system output and explanations in different ways, reflecting\ndifferent individual preferences, traits, and skills.\nThe GOVERN function provides organizations with the opportunity to clarify and define\nthe roles and responsibilities for the humans in the Hum"
+        },
+        {
+          "rank": 3,
+          "chunk_id": 47,
+          "page_label": "20",
+          "relevant": false,
+          "text_preview": "NIST AI 100-1 AI RMF 1.0\nPart 2: Core and Profiles\n5. AI RMF Core\nThe AI RMF Core provides outcomes and actions that enable dialogue, understanding, and\nactivities to manage AI risks and responsibly develop trustworthy AI systems. As illus-\ntrated in Figure 5, the Core is composed of four functions:"
+        }
+      ]
+    },
+    {
+      "question_id": 8,
+      "question": "What tasks are performed by AI design, development, and deployment actors?",
+      "relevant_pages": [
+        "35"
+      ],
+      "hit_at_3": 1,
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_results": [
+        {
+          "rank": 1,
+          "chunk_id": 77,
+          "page_label": "35",
+          "relevant": true,
+          "text_preview": "NIST AI 100-1 AI RMF 1.0\nAppendix A:\nDescriptions of AI Actor Tasks from Figures 2 and 3\nAI Design tasks are performed during the Application Context and Data and Input phases\nof the AI lifecycle in Figure 2. AI Design actors create the concept and objectives of AI\nsystems and are responsible for th"
+        },
+        {
+          "rank": 2,
+          "chunk_id": 80,
+          "page_label": "36",
+          "relevant": false,
+          "text_preview": "They include human-centered design practices and methodologies, promoting the\nactive involvement of end users and other interested parties and relevant AI actors, incor-\nporating context-specific norms and values in system design, evaluating and adapting end\nuser experiences, and broad integration o"
+        },
+        {
+          "rank": 3,
+          "chunk_id": 79,
+          "page_label": "36",
+          "relevant": false,
+          "text_preview": "NIST AI 100-1 AI RMF 1.0\nand validation tasks are distinct from those who perform test and evaluation actions. Tasks\ncan be incorporated into a phase as early as design, where tests are planned in accordance\nwith the design requirement.\n• TEVV tasks for design, planning, and data may center on inter"
+        }
+      ]
+    },
+    {
+      "question_id": 9,
+      "question": "How do AI risks differ from traditional software security and privacy risks?",
+      "relevant_pages": [
+        "39"
+      ],
+      "hit_at_3": 1,
+      "first_relevant_rank": 3,
+      "reciprocal_rank": 0.3333333333333333,
+      "retrieved_results": [
+        {
+          "rank": 1,
+          "chunk_id": 83,
+          "page_label": "38",
+          "relevant": false,
+          "text_preview": "NIST AI 100-1 AI RMF 1.0\nAppendix B:\nHow AI Risks Differ from Traditional Software Risks\nAs with traditional software, risks from AI-based technology can be bigger than an en-\nterprise, span organizations, and lead to societal impacts. AI systems also bring a set of\nrisks that are not comprehensivel"
+        },
+        {
+          "rank": 2,
+          "chunk_id": 42,
+          "page_label": "17",
+          "relevant": false,
+          "text_preview": "(See The NIST Privacy Framework: A Tool\nfor Improving Privacy through Enterprise Risk Management.)\nPrivacy values such as anonymity, confidentiality, and control generally should guide choices\nfor AI system design, development, and deployment. Privacy-related risks may influence\nsecurity, bias, and "
+        },
+        {
+          "rank": 3,
+          "chunk_id": 86,
+          "page_label": "39",
+          "relevant": true,
+          "text_preview": "Privacy and cybersecurity risk management considerations and approaches are applicable\nin the design, development, deployment, evaluation, and use of AI systems. Privacy and\ncybersecurity risks are also considered as part of broader enterprise risk management con-\nsiderations, which may incorporate "
+        }
+      ]
+    },
+    {
+      "question_id": 10,
+      "question": "What limitations of human-AI interaction should organizations consider?",
+      "relevant_pages": [
+        "40"
+      ],
+      "hit_at_3": 1,
+      "first_relevant_rank": 1,
+      "reciprocal_rank": 1.0,
+      "retrieved_results": [
+        {
+          "rank": 1,
+          "chunk_id": 87,
+          "page_label": "40",
+          "relevant": true,
+          "text_preview": "NIST AI 100-1 AI RMF 1.0\nAppendix C:\nAI Risk Management and Human-AI Interaction\nOrganizations that design, develop, or deploy AI systems for use in operational settings\nmay enhance their AI risk management by understanding current limitations of human-\nAI interaction. The AI RMF provides opportunit"
+        },
+        {
+          "rank": 2,
+          "chunk_id": 88,
+          "page_label": "40",
+          "relevant": true,
+          "text_preview": "3. Human-AI interaction results vary. Under certain conditions – for example, in\nperceptual-based judgment tasks – the AI part of the human-AI interaction can am-\nplify human biases, leading to more biased decisions than the AI or human alone.\nWhen these variations are judiciously taken into account"
+        },
+        {
+          "rank": 3,
+          "chunk_id": 12,
+          "page_label": "2",
+          "relevant": false,
+          "text_preview": "Part 1 discusses how organizations can frame\nthe risks related to AI and describes the intended audience. Next, AI risks and trustworthi-\nness are analyzed, outlining the characteristics of trustworthy AI systems, which include\nPage 2"
+        }
+      ]
+    }
+  ]
+}

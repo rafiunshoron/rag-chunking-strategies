@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "question": "What is the goal of the NIST AI Risk Management Framework?",
+    "relevant_pages": ["2"]
+  },
+  {
+    "id": 2,
+    "question": "How does the AI RMF define risk and risk management?",
+    "relevant_pages": ["4"]
+  },
+  {
+    "id": 3,
+    "question": "What challenges exist when measuring AI risks?",
+    "relevant_pages": ["6"]
+  },
+  {
+    "id": 4,
+    "question": "How should organizations prioritize AI risks?",
+    "relevant_pages": ["8"]
+  },
+  {
+    "id": 5,
+    "question": "Who is the intended audience of the AI Risk Management Framework?",
+    "relevant_pages": ["9"]
+  },
+  {
+    "id": 6,
+    "question": "What is the difference between explainability and interpretability in AI systems?",
+    "relevant_pages": ["16"]
+  },
+  {
+    "id": 7,
+    "question": "What is the purpose of the MAP function in the AI RMF?",
+    "relevant_pages": ["25"]
+  },
+  {
+    "id": 8,
+    "question": "What tasks are performed by AI design, development, and deployment actors?",
+    "relevant_pages": ["35"]
+  },
+  {
+    "id": 9,
+    "question": "How do AI risks differ from traditional software security and privacy risks?",
+    "relevant_pages": ["39"]
+  },
+  {
+    "id": 10,
+    "question": "What limitations of human-AI interaction should organizations consider?",
+    "relevant_pages": ["40"]
+  }
+]
