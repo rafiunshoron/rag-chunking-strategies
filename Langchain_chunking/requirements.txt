@@ -1,0 +1,7 @@
+langchain-text-splitters
+langchain-core
+langchain-huggingface
+langchain-chroma
+sentence-transformers
+tiktoken
+pypdf
